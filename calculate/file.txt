@@ -1,2 +1,167 @@
 This is file data
 RONALDO---->GOAT
+
+0. Define the Following Terms: VM, CPU Scheduler, System Call, Context Switch. Virtual Machine (VM)
+A software-based abstraction that isolates physical
+computer hardware into multiple independent execution
+environments, allowing multiple guest OSs to run
+concurrently.
+6–7 MARKS
+CPU Scheduler (Short-Term Scheduler)
+The OS component that selects from among memory-
+resident processes that are ready to run and allocates CPU
+execution time to one of them using algorithms like FCFS,
+SJF, or Round Robin.
+System Call
+The programmatic interface and control mechanism used
+by user applications to request privileged, hardware-
+controlled services directly from the operating system
+kernel.
+Context Switch
+The process of saving the execution state of the currently
+running process into its PCB and restoring the saved state
+of another process, enabling CPU time-sharing at the cost
+of slight switching overhead.
+Q11. IPC: Direct vs. Indirect Communication Comparison Deep Dive. 6–7 MARKS
+Feature Direct Communication Indirect Communication (Mailbox / Ports)
+Addressing Target Explicit process identifier: send(P, msg). Intermediate identifier: send(Mailbox
+_
+A, msg).
+Link Association Associated with exactly two processes. Can be shared among multiple processes.
+Link Multiplicity Only one link between each pair of processes. Multiple links can exist between a pair across
+different mailboxes.
+Coupling & Modularity Tight coupling; changing PIDs requires updating
+code references.
+Loose coupling; mailboxes can be relocated and
+shared dynamically.
+Q12. Mechanism for Enforcing Memory Protection (Base & Limit Registers). 6–7 MARKS
+To prevent user processes from overwriting OS code or accessing the address spaces of other programs, modern hardware
+uses a protection mechanism based on Base and Limit Registers:
+Base Register: Holds the smallest legal physical memory address allocated to the process.
+Limit Register: Specifies the size of the process's allocated address range.
+Yes
+CPU Address≥ Base?
+< Base+Limit?
+Yes (Physical Address)
+Access Memory RAM Trap to Operating System
+Addressing Error
+Figure 12.1: Hardware Memory Protection Verification via Base and Limit Register Comparisons.
+Instructions to alter base and limit registers are privileged. If an unprivileged user process generates an address outside the
+defined range, hardware traps to the OS as an addressing error, preventing corruption of other processes.
+3. What are the Tradeoffs Inherent in Handheld Computers? 6–7 MARKS
+Handheld computing architectures require balances between portable form factors and operational capabilities:
+Processing Performance vs. Battery Life: High-frequency processors increase responsiveness but accelerate battery drain
+and heat generation. Handheld CPUs run at conservative clock speeds with dynamic frequency scaling.
+Physical Memory vs. Storage Paging: Handheld devices have limited RAM and generally avoid traditional virtual memory
+paging to flash storage. Flash media has finite write endurance, and aggressive paging wears out storage while drawing
+significant battery power.
+Screen Size vs. User Interface: Small screens limit visible workspace. OS designs must rely on streamlined single-window
+interfaces and responsive layouts rather than multi-window desktop metaphors.
+Thermal Dissipation Constraints: Without fans, handhelds depend on passive heat dissipation, requiring thermal throttling
+during sustained workloads to avoid overheating.
+Q14. Distinguish between Client-Server and Peer-to-Peer Models. 6–7 MARKS
+Parameter Client-Server Architecture Peer-to-Peer (P2P) Architecture
+System Topology Centralized: clear role separation between clients
+and dedicated servers.
+Decentralized: all participating nodes (peers) share
+equal standing and roles.
+Role of Nodes Clients request services; servers (Compute/File)
+fulfill requests.
+Every node acts as both a consumer (client) and a
+provider (server).
+Scalability &
+Bottlenecks
+Central servers can become bottlenecks and single
+points of failure.
+Scales naturally; adding peers brings additional
+capacity and distributed load.
+Service Discovery Clients communicate with well-known, static server
+IP addresses.
+Uses centralized directories (e.g., Napster) or
+distributed broadcast protocols (e.g., Gnutella).
+Q15. OS Security on Systems without Hardware Privileged Mode: Is It Possible? 6–7 MARKS
+When computer hardware lacks a privileged mode, boundary enforcement shifts entirely to software:
+Arguments that It IS Possible
+Software Sandboxing / Interpreters: Applications run
+inside an interpreter or virtual execution environment
+(e.g., JVM). The engine validates bytecodes and memory
+accesses before execution.
+Type-Safe Languages: If software is authored exclusively
+in languages that prevent raw pointer arithmetic and
+enforce strict type safety (e.g., Java, Rust)
+, compilers can
+eliminate invalid memory accesses.
+Software Fault Isolation (SFI): Compilers can insert inline
+validation instructions before every load, store, or jump to
+verify memory bounds without dedicated hardware
+support.
+Arguments that It is NOT Possible
+Unchecked Native Code: If users run arbitrary machine
+binaries, the CPU will execute raw instructions without
+bounds checks, allowing processes to overwrite OS code
+or access devices directly.
+Vulnerability to Modified Binaries: A malicious actor can
+bypass compiler restrictions by patching instructions at
+the binary level, executing instructions that software
+checks cannot intercept.
+Conclusion: Secure operation is possible only within a
+strictly closed, verified language sandbox. It is impossible
+if the system permits arbitrary native binary execution.
+16. Differences: Mainframe OS vs. Personal Computer (PC) OS. 6–7 MARKS
+Dimension Mainframe Operating Systems (e.g., IBM z/OS) Personal Computer OS (e.g., Windows 11, macOS)
+Primary Goal Maximize hardware utilization, batch throughput, and
+transaction rates.
+Maximize individual user convenience, interactivity,
+and responsiveness.
+Workload Focus Serves thousands of concurrent users running
+enterprise databases and batch jobs.
+Optimized for single-user interactive apps, media
+playback, and oﬃce tools.
+Resource Optimization Keeps CPU and I/O channels fully utilized; idle time
+is minimized.
+Permits CPU idle time while waiting for keyboard,
+mouse, or touch input.
+Hardware Reliability Includes enterprise-grade hardware redundancy and
+multi-layered access isolation.
+Focuses on consumer peripheral compatibility and
+personal ease-of-use.
+Q17. Open-Source Operating Systems: Advantages, Disadvantages & Perspectives. 6–7 MARKS
+Advantages: Source code transparency allows audits and custom adaptations; no licensing costs; rapid community patching.
+Disadvantages: Lack of formal vendor SLAs; fragmented distributions; driver gaps for proprietary hardware.
+User Group Perceived Advantage Perceived Disadvantage
+Software Developers Full access to kernel sources for deep debugging,
+tracing, and tailoring.
+API variance across kernel versions requires
+ongoing code maintenance.
+Enterprise CIOs Zero licensing fees; no vendor lock-in; freedom to
+scale server fleets.
+Absence of formal liability and guaranteed
+commercial SLA contracts.
+Everyday Users Free operating software bundled with extensive
+community software repositories.
+Steeper learning curves and command-line
+troubleshooting for uncommon issues.
+Q18. Clustered Systems vs. Multiprocessor Systems & High Availability. 6–7 MARKS
+Multiprocessor systems are tightly coupled: multiple CPUs share a bus, memory, and peripheral devices inside a single
+chassis. Clustered systems are loosely coupled: two or more independent, networked computers share storage resources (via
+a SAN) and software coordination.
+Heartbeat Interconnect: Cluster nodes continuously exchange heartbeat signals over dedicated network paths to detect host
+failures immediately.
+Shared Storage (SAN / NAS): Shared storage allows surviving nodes to access data disks and recover active application
+states after a node failure.
+Distributed Lock Management (DLM): Synchronizes concurrent file operations to ensure only one host writes to shared
+volumes at a time.
+Failover Middleware: Automatically shifts virtual IP addresses and restarts services on surviving nodes during a failover event.
+Q19. Writing an Operating System for a Real-Time Environment (RTOS). 6–7 MARKS
+The primary challenge in writing an RTOS is guaranteeing strict temporal determinism. System correctness depends not only
+on producing accurate computational results, but on delivering them before strict deadlines.
+Bounding Latencies: The kernel must minimize and strictly bound both Interrupt Latency (time from hardware interrupt arrival
+to ISR execution) and Dispatch Latency (time needed to stop the running task and context-switch to a higher-priority task).
+Preemptive Kernel Design: The kernel must support preemption during system calls. Long critical sections that disable
+interrupts must be replaced with fine-grained locking or priority-aware synchronization.
+Resolving Priority Inversion: When a lower-priority task holds a resource needed by a high-priority task, middle-priority tasks
+can preempt the low-priority task, causing an unbounded delay. The RTOS must implement Priority Inheritance Protocols to
+prevent this condition.
+Avoiding Non-Deterministic Behaviors: Traditional virtual memory paging to secondary storage introduces unpredictable
+delays and must be avoided; memory allocations must be static or time-bounded.
+Operating Systems (BAI304) — Module 1 Solutions 
