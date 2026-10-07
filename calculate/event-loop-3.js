@@ -3,6 +3,7 @@ setImmediate(()=>console.log("set immediate"));
 setTimeout(()=>console.log("timer expired"));
 
 Promise.resolve("promise").then(console.log);
+
 fs.readFile("./file.txt","utf8",()=>{
     setTimeout(()=>console.log("2nd timer"),0);
 
