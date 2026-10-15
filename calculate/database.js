@@ -20,13 +20,35 @@ async function main(){
         phonenumber:"0987654321",
     };
 
-    const insertResult=await collection.insertMany([data]);
-    console.log("inserted data =>",insertResult);
+    const data2={
+        firstName:"itachi",
+        lastName:"uchia",
+        city:"atauski",
+        phonenumber:"0987654321",
+
+    };
+
+   // const insertResult=await collection.insertOne(data2);
+    //console.log("inserted data =>",insertResult);
 
     const findResult=await collection.find({}).toArray();
     console.log("found document=>",findResult);
 
+    const update=await collection.updateOne({firstName:"naruto"},
+        {$set:{city:"hidden leaf village "}});
+        console.log("updated document=>",update);
 
+
+    const indexName=await collection.createIndex({firstName:1});
+    console.log("index created=>",indexName);
+
+    //const deleteResult=await collection.deleteOne({firstName:"itachi"});
+    //console.log("deleted document=>",deleteResult);
+
+    
+
+    const countResult=await collection.countDocuments({});
+    console.log("count the documents in user collection=>",countResult);
 
     return "done.";
 }
