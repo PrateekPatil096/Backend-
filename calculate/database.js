@@ -28,7 +28,7 @@ async function main(){
 
     };
 
-   // const insertResult=await collection.insertOne(data2);
+    //const insertResult=await collection.insertOne(data2);
     //console.log("inserted data =>",insertResult);
 
     const findResult=await collection.find({}).toArray();
@@ -37,6 +37,11 @@ async function main(){
     const update=await collection.updateOne({firstName:"naruto"},
         {$set:{city:"hidden leaf village "}});
         console.log("updated document=>",update);
+
+
+    const update2=await collection.updateOne({firstName:"itachi"},
+        {$set:{city:"sand village "}});
+        console.log("updated document=>",update2);
 
 
     const indexName=await collection.createIndex({firstName:1});
